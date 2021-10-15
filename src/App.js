@@ -4,12 +4,25 @@ import { Component } from 'react';
 import ListItems from './components/Contacts_List/ListItems'
 import { Form } from './components/Form/Form'
 import { Filter } from './components/Filter/Filter'
+import { parse } from 'uuid';
 
 
 class App extends Component {
   state = {
-    contacts: [{ name: "Hello", number:"+20303003"}],
+    contacts: [],
   filter: ''
+  }
+
+  componentWillMount() {
+    if (localStorage.getItem("contacts")) {
+      this.setState({
+        contacts: JSON.parse(localStorage.getItem("contacts")),
+      })
+    }
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem("contacts", JSON.stringify(this.state.contacts))
   }
 
   addNewContact = (obj) => {
